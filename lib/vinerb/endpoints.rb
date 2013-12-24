@@ -145,14 +145,12 @@
         
         
         url = (API_URL + "users/%s/following") % [user_id]
-        params = {  }.reject { |k, v| v.nil? }
+        params = {  "size" => 100 }.reject { |k, v| v.nil? }
         api_call "get", url, params, "UserCollection"
       end
 
 
       def like(post_id,  optionals = {} )
-        
-        
         url = (API_URL + "posts/%s/likes") % [post_id]
         params = {  }.reject { |k, v| v.nil? }
         api_call "post", url, params, "Like"
@@ -165,6 +163,12 @@
         url = (API_URL + "posts/%s/likes") % [post_id]
         params = {  }.reject { |k, v| v.nil? }
         api_call "delete", url, params, nil
+      end
+
+      def get_comments(post_id, optionals = {} )
+        url = (API_URL + "posts/%s/comments") % [post_id]
+        params = {  }.reject { |k, v| v.nil? }
+        api_call "get", url, params, "Comment"
       end
 
 

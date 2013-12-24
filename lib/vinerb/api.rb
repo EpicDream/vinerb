@@ -1,5 +1,7 @@
 require 'multi_json'
 require 'rest-client'
+require 'debugger'
+
 
 class Vinerb::API
 
@@ -25,19 +27,24 @@ class Vinerb::API
 
     if %w[get head delete].include?(request_type)
       body = { :params => params }
-    else
+      RestClient.send(request_type,url,body.merge(headers)) { |response|
+        if [200, 400, 404].include? response.code
+          response.body
+        else
+          raise Vinerb::Error.new(response.code, response.body)
+        end
+      }
+    else %w[post,put].include?(request_type)
       body = params
+
+      RestClient.send(request_type,url,body,headers) { |response|
+        if [200, 400, 404].include? response.code
+          response.body
+        else
+          raise Vinerb::Error.new(response.code, response.body)
+        end
+      }
     end
-
-   
-
-    RestClient.send(request_type, url, body.merge(headers)) { |response|
-      if [200, 400, 404].include? response.code
-        response.body
-      else
-        raise Vinerb::Error.new(response.code, response.body)
-      end
-    }
   end
 
 end

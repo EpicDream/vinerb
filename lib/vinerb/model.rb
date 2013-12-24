@@ -54,7 +54,7 @@ module Vinerb
         elsif k =~ /#{class_name}Id/i
           h['id'] = v
         elsif k =~ /created/i
-          h[k] = Date.strptime v, '%Y-%m-%dT%H:%M:%S.%f'
+          h[k] = Date._strptime v, '%Y-%m-%dT%H:%M:%S.%f'
         else
           h[k] = v
         end
