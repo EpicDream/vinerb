@@ -326,22 +326,32 @@ module Vinerb
 
 
     class UserCollection
+      include Model
+      extend Decorators
       include Collection
     end
 
     class PostCollection
+      include Model
+      extend Decorators
       include Collection
     end
 
     class TagCollection
+      include Model
+      extend Decorators
       include Collection
     end
 
     class ChannelCollection
+      include Model
+      extend Decorators
       include Collection
     end
 
     class LikeCollection
+      include Model
+      extend Decorators
       include Collection
     end
 

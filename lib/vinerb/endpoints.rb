@@ -133,10 +133,9 @@
 
 
       def get_followers(user_id,  optionals = {} )
-        
-        
+        size = optionals["size"] || optionals[:size]; page = optionals["page"] || optionals[:page]; anchor = optionals["anchor"] || optionals[:anchor]
         url = (API_URL + "users/%s/followers") % [user_id]
-        params = {  }.reject { |k, v| v.nil? }
+        params = {  "size" => size ,  "page" => page ,  "anchor" => anchor  }.reject { |k, v| v.nil? }
         api_call "get", url, params, "UserCollection"
       end
 

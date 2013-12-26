@@ -9,10 +9,19 @@ class Vinerb::API
 
   include Vinerb::Endpoints
 
+
   attr_accessor :key
   attr_accessor :user_id
+  attr_accessor :request_number
+
+  def initialize
+    self.request_number = 0
+  end
 
   def api_call(request_type, url, params, clazz)
+    self.request_number += 1
+    #p self.request_number
+    #p url
     json = MultiJson.decode rest_call(request_type, url, params)
     raise Vinerb::Error.new(json['error'], json['code']) unless json['error'].empty?
     return json['data'] if clazz.nil?
@@ -36,7 +45,6 @@ class Vinerb::API
       }
     else %w[post,put].include?(request_type)
       body = params
-
       RestClient.send(request_type,url,body,headers) { |response|
         if [200, 400, 404].include? response.code
           response.body
